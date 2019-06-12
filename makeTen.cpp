@@ -54,7 +54,6 @@ int main(int argc, char **argv)
 
     if ((argc != 2) || (strlen(argv[1]) != 4)) {
         printf("usage: %s (4 digits number)\n", argv[0]);
-        // exit(1);
         return 0;
     }
 
