@@ -23,10 +23,10 @@ public:
     culc_fraction& set(int, int = 1);
     culc_fraction& reduce(); // 約分
     culc_fraction& reduce(culc_fraction&); //通分
-    culc_fraction& add(culc_fraction&);
-    culc_fraction& sub(culc_fraction&);
-    culc_fraction& mul(culc_fraction&);
-    culc_fraction& div(culc_fraction&);
+    culc_fraction& add(culc_fraction&, culc_fraction&);
+    culc_fraction& sub(culc_fraction&, culc_fraction&);
+    culc_fraction& mul(culc_fraction&, culc_fraction&);
+    culc_fraction& div(culc_fraction&, culc_fraction&);
 
 private:
     int num;
@@ -96,7 +96,7 @@ public:
     culc_Ten& set_num(char);
     auto      set_nums(culc_Ten *numbers, char argv);
     culc_Ten& set_fraction_num(char);
-    culc_Ten& solve();
+    // culc_Ten& solve();
 private:
     int numb;
     std::vector<int> str{1};
@@ -121,9 +121,9 @@ culc_Ten& culc_Ten::set_fraction_num(char argv){
     return *this;
 }
 
-culc_Ten& culc_Ten::solve(culc_Ten& num){
+// culc_Ten& culc_Ten::solve(culc_Ten& num){
     
-}
+// }
 
 int main(int argc, char **argv)
 {
@@ -139,7 +139,7 @@ int main(int argc, char **argv)
         numbers[i].set_fraction_num(argv[1][i]);
     }
 
-    numbers[0].solve(numbers[1]);
+    // numbers[0].solve(numbers[1]);
 
 
     
