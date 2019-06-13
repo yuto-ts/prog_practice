@@ -38,6 +38,7 @@ culc_fraction& culc_fraction::set(int n, int d)
     num = n;
     den = d;
     reduce();
+    std::cout << num << "/" << den << std::endl;
     return *this;
 }
 
@@ -89,32 +90,39 @@ culc_fraction& culc_fraction::div(culc_fraction& fb){
 
 
 
-class culc_Ten //: public culc_fraction
+class culc_Ten : public culc_fraction
 {
 public:
     culc_Ten& set_num(char);
     auto      set_nums(culc_Ten *numbers, char argv);
+    culc_Ten& set_fraction_num(char);
     culc_Ten& solve();
 private:
-    int num;
+    int numb;
     std::vector<int> str{1};
 };
 
 culc_Ten& culc_Ten::set_num(char argv){
-    num = (int)(argv  - '0');
+    numb = (int)(argv  - '0');
     str[0] = argv;
     str[1] = 0;
-    std::cout << num;
-
     return *this;
 }
-
-
 
 auto culc_Ten::set_nums(culc_Ten *numbers, char argv){
     for (int i = 0; i < 4; i++){
         numbers[i].set_num(argv);
     }
+}
+
+culc_Ten& culc_Ten::set_fraction_num(char argv){
+    set_num(argv);
+    culc_fraction::set(numb);
+    return *this;
+}
+
+culc_Ten& culc_Ten::solve(culc_Ten& num){
+    
 }
 
 int main(int argc, char **argv)
@@ -128,8 +136,10 @@ int main(int argc, char **argv)
 
     for (int i = 0; i < 4; i++)
     {
-        numbers[i].set_num(argv[1][i]);
+        numbers[i].set_fraction_num(argv[1][i]);
     }
+
+    numbers[0].solve(numbers[1]);
 
 
     
