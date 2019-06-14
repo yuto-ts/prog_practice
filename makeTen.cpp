@@ -20,14 +20,16 @@ int gcd(int x, int y){
 class culc_fraction
 {
 public:
-    culc_fraction& set(int, int = 2);
+    culc_fraction& set(int, int = 1);
     culc_fraction& reduce(); // 約分
     culc_fraction& reduce(culc_fraction&); //通分
     culc_fraction& add(culc_fraction&, culc_fraction&);
     culc_fraction& sub(culc_fraction&, culc_fraction&);
     culc_fraction& mul(culc_fraction&, culc_fraction&);
     culc_fraction& div(culc_fraction&, culc_fraction&);
-    void print();
+    void           print();
+    bool           lessTen();
+
 
 private:
     int num;
@@ -94,9 +96,15 @@ culc_fraction& culc_fraction::div(culc_fraction& fa, culc_fraction& fb){
 }
 
 
-
 void culc_fraction::print(){
     std::cout << num << "/" << den << std::endl;
+}
+
+bool culc_fraction::lessTen(){
+    if (num == 10){
+        std::cout << "hello world" << std::endl;
+    }
+    return 0;
 }
 
 class culc_Ten : public culc_fraction
@@ -106,7 +114,7 @@ public:
     auto      set_nums(culc_Ten *numbers, char argv);
     culc_Ten& set_fraction_num(char);
     // void      print();
-    culc_Ten& solve(culc_Ten* numbers, int n);
+    void      solve(culc_Ten* numbers, int n);
 private:
     int numb;
     // std::vector<culc_fraction> ans{1};
@@ -132,14 +140,14 @@ culc_Ten& culc_Ten::set_fraction_num(char argv){
     return *this;
 }
 
-culc_Ten& culc_Ten::solve(culc_Ten* numbers, int n)
+
+
+void culc_Ten::solve(culc_Ten* numbers, int n)
 {
     culc_Ten* ans = new culc_Ten[10];
 
     if (n == 1) {
-        if (numbers[0].num == 10){
-            // std::cout << numbers[0].str << std::endl;
-        }
+        numbers[0].lessTen();
         return;
     }
 
@@ -165,7 +173,7 @@ culc_Ten& culc_Ten::solve(culc_Ten* numbers, int n)
             // sprintf(ans[l].str, "(%s-%s)", numbers[i].str, numbers[j].str);
             solve(ans, n-1);
 
-            ans[l].add(numbers[j], numbers[i]);
+            ans[l].sub(numbers[j], numbers[i]);
             // sprintf(ans[l].str, "(%s-%s)", numbers[j].str, numbers[i].str);
             solve(ans, n-1);
 
@@ -189,6 +197,7 @@ culc_Ten& culc_Ten::solve(culc_Ten* numbers, int n)
 
 int main(int argc, char **argv)
 {
+    // culc_Ten* numbers = new culc_Ten[4];
     culc_Ten numbers[4];
     culc_Ten ans;
 
@@ -204,5 +213,7 @@ int main(int argc, char **argv)
 
     ans.add(numbers[0],  numbers[1]);
     ans.print();
+    ans.solve(numbers, 4);
     // solve(numbers, 4);
+    // delete [] numbers;
 }
