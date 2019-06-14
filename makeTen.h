@@ -10,8 +10,7 @@ public:
     auto      set_nums(calc_Ten *numbers, char argv);
     calc_Ten& set_fraction_num(char);
     void      solve(calc_Ten* numbers, int n);
-    void      set_str(calc_Ten&, calc_Ten&);
-
+    
 private:
     int numb;
     std::string str;

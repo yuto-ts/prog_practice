@@ -1,16 +1,5 @@
 #include <iostream>
 
-int gcd(int,int);
-
-int gcd(int x, int y){
-    while(y){
-        int w = x % y;
-            x = y;
-            y = w;
-    }
-    return x;
-}
-
 class calc_fraction
 {
 public:
@@ -24,6 +13,7 @@ public:
     void           print();
     bool           lessTen(); //10比較
     bool           zero_check();
+    int            gcd(int,int);
 
 private:
     int num;
@@ -40,7 +30,7 @@ calc_fraction& calc_fraction::set(int n, int d)
 
 calc_fraction& calc_fraction::reduce()
 {
-    int g = ::gcd(num, den);
+    int g = gcd(num, den);
     num /= g;
     den /= g;
 }
@@ -88,6 +78,14 @@ calc_fraction& calc_fraction::div(calc_fraction& fa, calc_fraction& fb){
     return *this;
 }
 
+void calc_fraction::print(){
+    std::cout << num << "/" << den << std::endl;
+}
+
+bool calc_fraction::lessTen(){
+    return num == 10 && den == 1;
+}
+
 bool calc_fraction::zero_check(){
     if (num == 0){
         return 0;
@@ -95,15 +93,11 @@ bool calc_fraction::zero_check(){
     return 1;
 }
 
-void calc_fraction::print(){
-    std::cout << num << "/" << den << std::endl;
-}
-
-bool calc_fraction::lessTen(){
-    if (num == 10 && den == 1){
-        std::cout << num  << "/" << den << std::endl;
-        return 1;
-    }else{
-        return 0;
+int calc_fraction::gcd(int x, int y){
+    while(y){
+        int w = x % y;
+            x = y;
+            y = w;
     }
+    return x;
 }
