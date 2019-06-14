@@ -62,6 +62,7 @@ culc_fraction& culc_fraction::reduce(culc_fraction& fb){
 culc_fraction& culc_fraction::add(culc_fraction& fa, culc_fraction& fb){
     fa.reduce(fb);
     num = fa.num + fb.num;
+    den = fa.den;
     reduce();
     fa.reduce();
     fb.reduce();
@@ -71,6 +72,7 @@ culc_fraction& culc_fraction::add(culc_fraction& fa, culc_fraction& fb){
 culc_fraction& culc_fraction::sub(culc_fraction& fa, culc_fraction& fb){
     fa.reduce(fb);
     num = fa.num - fb.num;
+    den = fa.den;
     reduce();
     fa.reduce();
     fb.reduce();
@@ -204,7 +206,9 @@ int main(int argc, char **argv)
         numbers[i].set_fraction_num(argv[1][i]);
     }
 
-    ans.div(numbers[0],  numbers[1]);
+    // ans.set_fraction_num(1);
+    ans.sub(numbers[0],  numbers[1]);
+    ans.print();
     // numbers[0].solve(numbers[1]);
 
 
