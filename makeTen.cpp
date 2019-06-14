@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
 
-
 #include <string.h>
 #include <math.h>
 #include <vector>
@@ -41,7 +40,6 @@ culc_fraction& culc_fraction::set(int n, int d)
     num = n;
     den = d;
     reduce();
-    std::cout << num << "/" << den << std::endl;
     return *this;
 }
 
@@ -101,10 +99,12 @@ void culc_fraction::print(){
 }
 
 bool culc_fraction::lessTen(){
-    if (num == 10){
-        std::cout << "hello world" << std::endl;
+    if (num == 10 || den == 1){
+        std::cout << num  << "/" << den << std::endl;
+        return 1;
+    }else{
+        return 0;
     }
-    return 0;
 }
 
 class culc_Ten : public culc_fraction
@@ -115,16 +115,16 @@ public:
     culc_Ten& set_fraction_num(char);
     // void      print();
     void      solve(culc_Ten* numbers, int n);
+    void      set_str(culc_Ten&, culc_Ten&);
 private:
     int numb;
-    // std::vector<culc_fraction> ans{1};
-    std::vector<int> str{1};
+    std::string str;
 };
 
 culc_Ten& culc_Ten::set_num(char argv){
     numb = (int)(argv  - '0');
-    str[0] = argv;
-    str[1] = 0;
+    str = argv;
+    // str[1] = 0;
     return *this;
 }
 
@@ -147,11 +147,11 @@ void culc_Ten::solve(culc_Ten* numbers, int n)
     culc_Ten* ans = new culc_Ten[10];
 
     if (n == 1) {
-        numbers[0].lessTen();
+        if(numbers[0].lessTen()){
+            std::cout << numbers[0].str << " == 10" << std::endl;
+        }
         return;
     }
-
-    // new_numbers = (struct numstr *)malloc(sizeof(struct numstr) * (n-1));
 
     /* numbers[i]とnumbers[j]を演算 */
     for (int i=0; i<n-1; i++) {
@@ -166,27 +166,27 @@ void culc_Ten::solve(culc_Ten* numbers, int n)
             /* 以下、演算結果をnew_numbers[l]に入れる */
 
             ans[l].add(numbers[i], numbers[j]);
-            // sprintf(ans[l].str, "(%s+%s)", numbers[i].str, numbers[j].str);
+            ans[l].str = "(" + numbers[i].str + " + " + numbers[j].str + ")";
             solve(ans, n-1);
 
             ans[l].sub(numbers[i], numbers[j]);
-            // sprintf(ans[l].str, "(%s-%s)", numbers[i].str, numbers[j].str);
+            ans[l].str = "(" + numbers[i].str + " - " + numbers[j].str + ")";
             solve(ans, n-1);
 
             ans[l].sub(numbers[j], numbers[i]);
-            // sprintf(ans[l].str, "(%s-%s)", numbers[j].str, numbers[i].str);
+            ans[l].str = "(" + numbers[j].str + " - " + numbers[i].str + ")";
             solve(ans, n-1);
 
             ans[l].mul(numbers[i], numbers[j]);
-            // sprintf(ans[l].str, "(%s*%s)", numbers[i].str, numbers[j].str);
+            ans[l].str = "(" + numbers[i].str + " * " + numbers[j].str + ")";
             solve(ans, n-1);
 
             ans[l].div(numbers[i], numbers[j]);
-            // sprintf(ans[l].str, "(%s*%s)", numbers[i].str, numbers[j].str);
+            ans[l].str = "(" + numbers[i].str + " / " + numbers[j].str + ")";
             solve(ans, n-1);
 
             ans[l].div(numbers[j], numbers[i]);
-            // sprintf(ans[l].str, "(%s*%s)", numbers[i].str, numbers[j].str);
+            ans[l].str = "(" + numbers[j].str + " / " + numbers[i].str + ")";
             solve(ans, n-1);
         }
     }
@@ -214,6 +214,4 @@ int main(int argc, char **argv)
     ans.add(numbers[0],  numbers[1]);
     ans.print();
     ans.solve(numbers, 4);
-    // solve(numbers, 4);
-    // delete [] numbers;
 }
