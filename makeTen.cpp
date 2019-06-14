@@ -5,18 +5,14 @@
 
 int main(int argc, char **argv)
 {
-    calc_Ten numbers[4];
+    const int num_of_data = strlen(argv[1]);
+    calc_Ten numbers[num_of_data];
     calc_Ten ans;
 
-    if ((argc != 2) || (strlen(argv[1]) != 4)) {
-        std::cout << "usage: " << argv[0] << " (4 digits number)" << std::endl;
-        return 0;
-    }
-
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < num_of_data; i++)
     {
         numbers[i].set_fraction_num(argv[1][i]);
     }
 
-    ans.solve(numbers, 4);
+    ans.solve(numbers, num_of_data);
 }

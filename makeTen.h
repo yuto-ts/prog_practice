@@ -7,10 +7,9 @@ class calc_Ten : public calc_fraction
 {
 public:
     calc_Ten& set_num(char);
-    auto      set_nums(calc_Ten *numbers, char argv);
     calc_Ten& set_fraction_num(char);
     void      solve(calc_Ten* numbers, int n);
-    
+
 private:
     int numb;
     std::string str;
@@ -22,11 +21,6 @@ calc_Ten& calc_Ten::set_num(char argv){
     return *this;
 }
 
-auto calc_Ten::set_nums(calc_Ten *numbers, char argv){
-    for (int i = 0; i < 4; i++){
-        numbers[i].set_num(argv);
-    }
-}
 
 calc_Ten& calc_Ten::set_fraction_num(char argv){
     set_num(argv);
