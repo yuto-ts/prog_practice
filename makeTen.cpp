@@ -20,7 +20,7 @@ int gcd(int x, int y){
 class culc_fraction
 {
 public:
-    culc_fraction& set(int, int = 1);
+    culc_fraction& set(int, int = 2);
     culc_fraction& reduce(); // 約分
     culc_fraction& reduce(culc_fraction&); //通分
     culc_fraction& add(culc_fraction&, culc_fraction&);
@@ -106,9 +106,10 @@ public:
     auto      set_nums(culc_Ten *numbers, char argv);
     culc_Ten& set_fraction_num(char);
     // void      print();
-    // culc_Ten& culc_Ten::solve(culc_Ten& numbers, int n);
+    culc_Ten& solve(culc_Ten* numbers, int n);
 private:
     int numb;
+    // std::vector<culc_fraction> ans{1};
     std::vector<int> str{1};
 };
 
@@ -131,64 +132,59 @@ culc_Ten& culc_Ten::set_fraction_num(char argv){
     return *this;
 }
 
-// culc_Ten& culc_Ten::solve(culc_Ten& numbers, int n)
-// {
-//     int i, j, k, l;
-//     struct numstr *new_numbers;
+culc_Ten& culc_Ten::solve(culc_Ten* numbers, int n)
+{
+    culc_Ten* ans = new culc_Ten[10];
 
-//     if (n == 1) {
-//         if (fabs(numbers[0].num - 10.) < 1e-5) {
-//             printf("%s=10\n", numbers[0].str);
-//         }
-//         return;
-//     }
+    if (n == 1) {
+        if (numbers[0].num == 10){
+            // std::cout << numbers[0].str << std::endl;
+        }
+        return;
+    }
 
-//     new_numbers = (struct numstr *)malloc(sizeof(struct numstr) * (n-1));
+    // new_numbers = (struct numstr *)malloc(sizeof(struct numstr) * (n-1));
 
-//     /* numbers[i]とnumbers[j]を演算 */
-//     for (i=0; i<n-1; i++) {
-//         for (j=i+1; j<n; j++) {
-//             /* 演算しないものをnew_numbersにコピー */
-//             l = 0;
-//             for (k=0; k<n; k++) {
-//                 if ((k!=i)&&(k!=j)) {
-//                     new_numbers[l++] = numbers[k];
-//                 }
-//             }
-//             /* 以下、演算結果をnew_numbers[l]に入れる */
+    /* numbers[i]とnumbers[j]を演算 */
+    for (int i=0; i<n-1; i++) {
+        for (int j=i+1; j<n; j++) {
+            /* 演算しないものをnew_numbersにコピー */
+            int l = 0;
+            for (int k=0; k<n; k++) {
+                if ((k!=i)&&(k!=j)) {
+                    ans[l++] = numbers[k];
+                }
+            }
+            /* 以下、演算結果をnew_numbers[l]に入れる */
 
-//             new_numbers[l].num = numbers[i].num + numbers[j].num;
-//             sprintf(new_numbers[l].str, "(%s+%s)", numbers[i].str, numbers[j].str);
-//             solve(new_numbers, n-1);
+            ans[l].add(numbers[i], numbers[j]);
+            // sprintf(ans[l].str, "(%s+%s)", numbers[i].str, numbers[j].str);
+            solve(ans, n-1);
 
-//             new_numbers[l].num = numbers[i].num - numbers[j].num;
-//             sprintf(new_numbers[l].str, "(%s-%s)", numbers[i].str, numbers[j].str);
-//             solve(new_numbers, n-1);
+            ans[l].sub(numbers[i], numbers[j]);
+            // sprintf(ans[l].str, "(%s-%s)", numbers[i].str, numbers[j].str);
+            solve(ans, n-1);
 
-//             new_numbers[l].num = numbers[j].num - numbers[i].num;
-//             sprintf(new_numbers[l].str, "(%s-%s)", numbers[j].str, numbers[i].str);
-//             solve(new_numbers, n-1);
+            ans[l].add(numbers[j], numbers[i]);
+            // sprintf(ans[l].str, "(%s-%s)", numbers[j].str, numbers[i].str);
+            solve(ans, n-1);
 
-//             new_numbers[l].num = numbers[i].num * numbers[j].num;
-//             sprintf(new_numbers[l].str, "(%s*%s)", numbers[i].str, numbers[j].str);
-//             solve(new_numbers, n-1);
+            ans[l].mul(numbers[i], numbers[j]);
+            // sprintf(ans[l].str, "(%s*%s)", numbers[i].str, numbers[j].str);
+            solve(ans, n-1);
 
-//             if (fabs(numbers[j].num) > 1e-5) {
-//                 new_numbers[l].num = numbers[i].num / numbers[j].num;
-//                 sprintf(new_numbers[l].str, "(%s/%s)", numbers[i].str, numbers[j].str);
-//                 solve(new_numbers, n-1);
-//             }
+            ans[l].div(numbers[i], numbers[j]);
+            // sprintf(ans[l].str, "(%s*%s)", numbers[i].str, numbers[j].str);
+            solve(ans, n-1);
 
-//             if (fabs(numbers[i].num) > 1e-5) {
-//                 new_numbers[l].num = numbers[j].num / numbers[i].num;
-//                 sprintf(new_numbers[l].str, "(%s/%s)", numbers[j].str, numbers[i].str);
-//                 solve(new_numbers, n-1);
-//             }
-//         }
-//     }
+            ans[l].div(numbers[j], numbers[i]);
+            // sprintf(ans[l].str, "(%s*%s)", numbers[i].str, numbers[j].str);
+            solve(ans, n-1);
+        }
+    }
 
-//     free(new_numbers);
-// }
+    delete [] ans;
+}
 
 
 int main(int argc, char **argv)
@@ -206,12 +202,7 @@ int main(int argc, char **argv)
         numbers[i].set_fraction_num(argv[1][i]);
     }
 
-    // ans.set_fraction_num(1);
-    ans.sub(numbers[0],  numbers[1]);
+    ans.add(numbers[0],  numbers[1]);
     ans.print();
-    // numbers[0].solve(numbers[1]);
-
-
-    
     // solve(numbers, 4);
 }
