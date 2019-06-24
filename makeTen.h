@@ -3,8 +3,7 @@
 #include <string>
 #include "calc_fraction.h"
 
-class calc_Ten : public calc_fraction
-{
+class calc_Ten : public calc_fraction {
 public:
     calc_Ten& set_num(char);
     calc_Ten& set_fraction_num(char);
@@ -15,25 +14,25 @@ private:
     std::string str;
 };
 
-calc_Ten& calc_Ten::set_num(char argv){
+calc_Ten& calc_Ten::set_num(char argv) {
     numb = (int)(argv  - '0');
     str = argv;
     return *this;
 }
 
 
-calc_Ten& calc_Ten::set_fraction_num(char argv){
+calc_Ten& calc_Ten::set_fraction_num(char argv) {
     set_num(argv);
     calc_fraction::set(numb);
     return *this;
 }
 
-void calc_Ten::solve(calc_Ten* numbers, int n)
-{
+
+void calc_Ten::solve(calc_Ten* numbers, int n) {
     calc_Ten* ans = new calc_Ten[10];
 
     if (n == 1) {
-        if(numbers[0].lessTen()){
+        if(numbers[0].equalTen()) {
             std::cout << numbers[0].str << " == 10" << std::endl;
         }
         return;
@@ -66,13 +65,13 @@ void calc_Ten::solve(calc_Ten* numbers, int n)
             ans[l].str = "(" + numbers[i].str + " * " + numbers[j].str + ")";
             solve(ans, n-1);
 
-            if (numbers[j].zero_check()){
+            if (numbers[j].zero_check()) {
                 ans[l].div(numbers[i], numbers[j]);
                 ans[l].str = "(" + numbers[i].str + " / " + numbers[j].str + ")";
                 solve(ans, n-1);
             }
 
-            if (numbers[i].zero_check()){
+            if (numbers[i].zero_check()) {
                 ans[l].div(numbers[j], numbers[i]);
                 ans[l].str = "(" + numbers[j].str + " / " + numbers[i].str + ")";
                 solve(ans, n-1);
@@ -81,4 +80,3 @@ void calc_Ten::solve(calc_Ten* numbers, int n)
     }
     delete [] ans;
 }
-
