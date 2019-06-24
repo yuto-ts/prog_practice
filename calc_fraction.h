@@ -5,14 +5,25 @@ public:
     calc_fraction& set(int, int = 1);
     calc_fraction& reduce(); // 約分
     calc_fraction& reduce(calc_fraction&); // 通分
+    // 関数の引数は型だけではない
+    // X operator+ (const X& rhs) const {}
+    // オペレータの正しい定義をしらべる
+    // 関数は小文字
+    // コンストラクタでインプットはない
+    // 入出力とクラスは分ける
+    // ROSのインプットは分ける
+    // swich caseでかくのは，製品っぽい
     calc_fraction& add(calc_fraction&, calc_fraction&);
     calc_fraction& sub(calc_fraction&, calc_fraction&);
     calc_fraction& mul(calc_fraction&, calc_fraction&);
     calc_fraction& div(calc_fraction&, calc_fraction&);
-    void           print();
+    // 四則演算はオペレータにする
+    void print();
     bool           equalTen(); // 10比較
     bool           zero_check();
     int            gcd(int,int);
+    //スペースは詰める
+    // オブジェクトとして
 
 private:
     int num;

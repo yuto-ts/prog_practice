@@ -29,8 +29,14 @@ calc_Ten& calc_Ten::set_fraction_num(char argv) {
 
 
 void calc_Ten::solve(calc_Ten* numbers, int n) {
-    calc_Ten* ans = new calc_Ten[10];
-
+    calc_Ten* ans = new calc_Ten[n]; 
+    // 不用なnewをしない
+    // make_shered<> シェアードポインタと
+    // ユニークポインタはnewしないといけなくなって
+    // 再帰は駄目な場合が多い()
+    // 結果を格納するような設計をする
+    // シングルトンにする
+    // 手続きのみのインスタンスはstaticにするのも手
     if (n == 1) {
         if(numbers[0].equalTen()) {
             std::cout << numbers[0].str << " == 10" << std::endl;
